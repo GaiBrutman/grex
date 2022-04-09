@@ -35,6 +35,9 @@ class GrexHit:
                 match.group(), colorama.Fore.RED + match.group() + colorama.Style.RESET_ALL)
         return colored_string
 
+    def __str__(self):
+        return self.string
+
     def __repr__(self):
         if self.colored:
             return self.colored_string()
@@ -50,11 +53,14 @@ class GrexHits:
     def __init__(self, hits: Iterable[re.Match]):
         self.hits = hits
 
+    def splitlines(self):
+        return self.hits
+
     def __iter__(self):
         return self.hits.__iter__()
 
     def __repr__(self):
-        return "\n".join(map(str, self))
+        return "\n".join(hit.__repr__() for hit in self)
 
 
 class Grex:
@@ -73,10 +79,10 @@ class Grex:
 
         matches = []
         for line in text.splitlines():
-            re_matches = list(self.pattern.finditer(line))
+            re_matches = list(self.pattern.finditer(str(line)))
             if re_matches:
                 matches.append(
-                    GrexHit(line, re_matches, colored=self.colored))
+                    GrexHit(str(line), re_matches, colored=self.colored))
         return GrexHits(matches)
 
     def __ror__(self, other: str) -> str:
@@ -92,7 +98,10 @@ class Grex:
         >>> "Hello, world!" | grex
         """
 
-        if not isinstance(other, str):
+        if isinstance(other, bytes):
+            other = other.decode("utf-8")
+
+        if not isinstance(other, (str, GrexHits)):
             raise TypeError(f"Can't use '|' operator with {type(other)}")
 
         return self.find(other)

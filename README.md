@@ -18,9 +18,23 @@ print(text | grep(r'i', ignore_case=True))
 
 ```sh
 This is a grex example.
-I am a grex. 
+I am a grex.
 ```
 
 The `pattern` argument is handled as a regular expression.
 
-You can also use `colored=True` to highlight the matches.
+You can pipe multiple greps.
+
+```py
+"""
+follow
+hello
+yellow
+""" | grep("ello") | grep('w')
+```
+
+```sh
+yellow
+```
+
+Use `colored=True` to highlight the matches.
