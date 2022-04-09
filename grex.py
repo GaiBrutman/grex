@@ -1,5 +1,6 @@
-from typing import Union, Iterable
 import re
+from typing import Iterable, Union
+
 import colorama
 
 
