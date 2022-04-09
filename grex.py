@@ -5,7 +5,7 @@ import colorama
 
 class GrexHit:
     """
-    A Grex matched string.    
+    A Grex matched string.
     """
 
     def __init__(self, string, matches: Iterable[re.Match], colored=False):
@@ -87,7 +87,8 @@ class Grex:
         :return: A GrexHits object with the hits.
 
         :example:
-        >>> grex = Grex("(?P<name>.*)")
+        >>> grex = Grex("ll", colored=True)
+        >>> "Hello, world!" | grex
         """
 
         if not isinstance(other, str):
@@ -101,8 +102,8 @@ def grex(pattern: Union[str, re.Pattern], ignore_case=False, colored=False) -> G
     A wrapper for the 'Grex' class.
 
     :param pattern: The pattern to match.
-    :param ignore_case: Whether to ignore cases when searching, defaults to False
-    :param colored: Whether to color the output hits, defaults to False
+    :param ignore_case: Whether to ignore cases when searching, defaults to False.
+    :param colored: Whether to color the output hits, defaults to False.
     :return: The grex object.
     """
 
@@ -111,5 +112,5 @@ def grex(pattern: Union[str, re.Pattern], ignore_case=False, colored=False) -> G
     return Grex(pattern, colored)
 
 
-# For compatibility with the unix clone
+# For compatibility with the unix clone.
 grep = grex
